@@ -11,9 +11,18 @@ exports.newProduct = async(req, res, next) => {
     })
 }
 
-exports.getProducts = (req, res, next) => {
+// Get all products => api/v1/products
+exports.getProducts = async (req, res, next) => {
+    try{
+        var products = await Product.find();
+    }catch(err){
+        console.log('Error occurred while fetching data from DB');
+        console.log(err);
+    }
     res.status(200).json({
         success: true,
-        message: "This route will show all the products in db"
+        count: products.length,
+        products
     })
 }
+
