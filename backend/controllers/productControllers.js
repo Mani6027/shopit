@@ -22,14 +22,20 @@ exports.newProduct = asyncErrorHandler(
 exports.getProducts = asyncErrorHandler(
     async (req, res, next) => {
 
+        const resultPerPage = 2;
+        const productCount = await Product.countDocuments()
+
         const apiFeatures = new APIFeatures(Product.find(), req.query)
                                 .search()
                                 .filter()
+                                .pagination(resultPerPage)
+
         const products = await apiFeatures.query;
 
         res.status(200).json({
             success: true,
-            count: products.length,
+            resultCount: products.length,
+            productCount,
             products
         })
     }
