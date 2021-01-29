@@ -9,6 +9,7 @@ const {
         deleteProduct} = require('../controllers/productControllers');
 
 router.route('/products').get(getProducts);
+// const result = getSingleProduct().then(response => {return resolve(response)}).catch((err, next) => next)
 router.route('/product/:id').get(getSingleProduct);
 
 router.route('/admin/product/new').post(newProduct);
