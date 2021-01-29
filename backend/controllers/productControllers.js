@@ -52,7 +52,6 @@ exports.getSingleProduct = async (req, res, next) => {
     }
 }
 
-
 // Update product => /api/v1/product/:id
 exports.updateProdcut = async (req, res, next) => {
     try{
