@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express()
 
-app.use(express.json()) 
+// Middlewares
+app.use(express.json())
+
 // Import all the routes
 const productRouter = require('./routes/products');
 

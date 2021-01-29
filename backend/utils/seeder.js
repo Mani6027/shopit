@@ -9,6 +9,7 @@ dotenv.config({path: 'backend/config/config.env'})
 
 connectDatabase();
 
+// NOTE: Be careful, running this function will delete all your data from Product schema
 const seedProduct = async () => {
     try{
         await Product.deleteMany();

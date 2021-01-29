@@ -9,7 +9,7 @@ const connectDatabase = () => {
         console.log(`Mongodb connected with: ${con.connection.host}`);
     }).catch( err => {
         console.log('----------------ERROR--------------------')
-        console.error(err);
+        console.error(err.message);
         console.log('-----------------------------')
         console.log('Error occurred while connecting to mongodb!!');
     });

@@ -49,8 +49,6 @@ exports.getSingleProduct = async (req, res, next) => {
             success: false,
             message: err.message
         });
-        // console.log('Error occurred while fetching data from DB');
-        // console.log(err);
     }
 }
 
@@ -82,6 +80,34 @@ exports.updateProdcut = async (req, res, next) => {
         res.status(500).json({
             success: false,
             message: err.message
+        })
+    }
+}
+
+
+// Deleted product  => /api/v1/admin/product/:id
+exports.deleteProduct = async (req, res, next) => {
+    let product;
+    try{
+        product = await Product.findById(req.params.id);
+        
+        if(!product){
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found'
+            })
+        }
+
+        await product.remove();
+        res.status(200).json({
+            success: true,
+            message: 'Product deleted successfully'
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            success: false,
+            message: `Error ${err.message}`
         })
     }
 }
