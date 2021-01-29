@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const mongoose = require('mongoose');
+const APIFeatures = require('../utils/apiFeatures')
 
 const ErrorHandler = require('../utils/errorHandler');
 const asyncErrorHandler = require('../middlewares/catchAsyncErrors');
@@ -20,7 +21,10 @@ exports.newProduct = asyncErrorHandler(
 // Get all products => /api/v1/products
 exports.getProducts = asyncErrorHandler(
     async (req, res, next) => {
-        var products = await Product.find();
+        
+        const apiFeatures = new APIFeatures(Product.find(), req.query)
+                                .search()
+        const products = await apiFeatures.query;
 
         res.status(200).json({
             success: true,
