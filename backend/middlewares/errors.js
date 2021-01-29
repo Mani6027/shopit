@@ -14,11 +14,22 @@ module.exports = (err, req, res, next) => {
     if(process.env.NODE_ENV === 'PRODUCTION'){
         let error = {...err}
         
-        error.message = err.message
+        // Handle cast error/ wrong mongoose object Id
+        if(err.name === 'CastError'){
+            const message = `Resource not found.Invalid '${err.value}' for key: ${err.path}`
+            error = new ErrorHandler(message, 400);
+        }
+        else if(err.name === 'ValidationError'){
+            const message = Object.values(err.errors).map(value => value.message);
+            error = new ErrorHandler(message, 400);
+        }
+        else{
+            error.message = err.message
+        }
 
         res.status(err.statusCode).json({
             success: false,
-            message: err.message || 'Internal Server Erorr'
+            message: error.message || 'Internal Server Erorr'
         })
     }
 }
