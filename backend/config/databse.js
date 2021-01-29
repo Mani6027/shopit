@@ -7,12 +7,8 @@ const connectDatabase = () => {
         useUnifiedTopology: true
     }).then(con => {
         console.log(`Mongodb connected with: ${con.connection.host}`);
-    }).catch( err => {
-        console.log('----------------ERROR--------------------')
-        console.error(err.message);
-        console.log('-----------------------------')
-        console.log('Error occurred while connecting to mongodb!!');
-    });
+    })
+    // Will handle catch in server.js module using unhandledpromiserejection.
 }
 
 module.exports = connectDatabase;
