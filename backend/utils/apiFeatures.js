@@ -31,6 +31,7 @@ class APIFeatures{
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`)
 
         // TODO: implement callback function to avoid getting metadata.
+        // By avoiding metadata we can reduce response time.
         this.query = this.query.find(JSON.parse(queryStr));
         return this;
     }
