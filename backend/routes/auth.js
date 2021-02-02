@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const {registerUser, loginUser, logout} = require('../controllers/usersController');
+const {registerUser, loginUser, logout, forgotPassword} = require('../controllers/usersController');
+const { route } = require('./products');
 
 router.route('/health').get((req, res, next) => {
     res.status(200).json({
@@ -10,6 +11,7 @@ router.route('/health').get((req, res, next) => {
 
 router.route('/logout').get(logout);
 
+router.route('/password/forgot').post(forgotPassword);
 router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);
 
