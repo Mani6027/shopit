@@ -9,9 +9,11 @@ const {
     resetPassword,
     getUserProfile,
     updatePassword,
-    updateProfile} = require('../controllers/usersController');
+    updateProfile,
+    getAllUsers,
+    getUserDetails} = require('../controllers/usersController');
 
-const {isAuthentcatedUser} = require('../middlewares/auth');
+const {isAuthentcatedUser, authorizeRoles} = require('../middlewares/auth');
 
 router.route('/health').get((req, res, next) => {
     res.status(200).json({
@@ -29,5 +31,7 @@ router.route('/me').get(isAuthentcatedUser, getUserProfile);
 router.route('/me/update').put(isAuthentcatedUser, updateProfile);
 router.route('/password/update').put(isAuthentcatedUser, updatePassword);
 
+router.route('/admin/users').get(isAuthentcatedUser, authorizeRoles('admin'), getAllUsers)
+router.route('/admin/user/:id').get(isAuthentcatedUser, authorizeRoles('admin'), getUserDetails)
 
 module.exports = router;
