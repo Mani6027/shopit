@@ -7,11 +7,10 @@ const {
     logout, 
     forgotPassword,
     resetPassword} = require('../controllers/usersController');
-const { route } = require('./products');
 
 router.route('/health').get((req, res, next) => {
     res.status(200).json({
-        success: true, 
+        success: true,
         message: 'Auth route is healthy'})})
 
 router.route('/logout').get(logout);

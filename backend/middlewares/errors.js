@@ -13,7 +13,7 @@ module.exports = (err, req, res, next) => {
     }
     if(process.env.NODE_ENV === 'PRODUCTION'){
         let error = {...err}
-        
+        console.log(err)
         // Handle cast error/ wrong mongoose object Id
         if(err.name === 'CastError'){
             const message = `Resource not found.Invalid '${err.value}' for key: ${err.path}`
@@ -21,6 +21,20 @@ module.exports = (err, req, res, next) => {
         }
         else if(err.name === 'ValidationError'){
             const message = Object.values(err.errors).map(value => value.message);
+            error = new ErrorHandler(message, 400);
+        }
+        //
+        else if(err.code === 11000){
+            const message = `Duplicate ${Object.keys(err.keyValue)} entered`
+            error = new ErrorHandler(message, 400);
+        }
+        // Json web token error 
+        else if(err.name === 'JsonWebTokenError'){
+            const message = `JSON Web Token is invalid . Try Again!!!`
+            error = new ErrorHandler(message, 400);
+        }
+        else if(err.name === 'TokenExpiredError'){
+            const message = `JSON Web Token is expired . Try Again!!!`
             error = new ErrorHandler(message, 400);
         }
         else{
