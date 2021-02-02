@@ -10,6 +10,13 @@ const {
 
 const {isAuthentcatedUser, authorizeRoles} = require('../middlewares/auth')
 
+router.route('/health').get((req, res, next) => {
+        res.status(200).json({
+                success: true,
+                message: 'Product route is healthy'
+        })
+})
+
 router.route('/products').get(isAuthentcatedUser, getProducts);
 router.route('/product/:id').get(isAuthentcatedUser, getSingleProduct);
 
