@@ -11,7 +11,7 @@ const {
 const {isAuthentcatedUser} = require('../middlewares/auth')
 
 router.route('/products').get(isAuthentcatedUser, getProducts);
-router.route('/product/:id').get(getSingleProduct);
+router.route('/product/:id').get(isAuthentcatedUser, getSingleProduct);
 
 router.route('/admin/product/new').post(newProduct);
 
