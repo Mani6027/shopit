@@ -8,7 +8,10 @@ const asyncErrorHandler = require('../middlewares/catchAsyncErrors');
 // Create new prodcut => /api/v1/product/new
 exports.newProduct = asyncErrorHandler(
     async(req, res, next) => {
-    
+        
+        // Todo: Handle same product storing in db
+        req.body.user = req.user.id
+
         const product =  await Product.create(req.body);
     
         res.status(201).json({
