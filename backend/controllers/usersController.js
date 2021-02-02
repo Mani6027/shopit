@@ -125,6 +125,16 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 })
 
+// Get currecntly login user detailes => /api/v1/me
+exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success: true,
+        user
+    })
+})
+
 // Logout user => /api/v1/Logout
 exports.logout = catchAsyncErrors(async (req, res, next) => {
     res.cookie('token', null, {
@@ -137,3 +147,4 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
         message: 'Logged out'
     })
 })
+
