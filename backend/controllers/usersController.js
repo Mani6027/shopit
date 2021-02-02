@@ -135,6 +135,26 @@ exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
+// Update / change password => /api/v1/password/update
+exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
+    if(!req.body.newPassword || !req.body.oldPassword){
+        return next(new ErrorHandler('Provide required params', 400));
+    }
+
+    const user =  await User.findById(req.user.id).select('+password');
+
+    // Check previous user password
+    const isMatched = await user.comparePassword(req.body.oldPassword);
+    if(!isMatched) {
+        return next(new ErrorHandler('Old password is incorrect', 400))
+    }
+
+    user.password = req.body.newPassword;
+    await user.save();
+
+    sendToken(user, 200, res);
+})
+
 // Logout user => /api/v1/Logout
 exports.logout = catchAsyncErrors(async (req, res, next) => {
     res.cookie('token', null, {
