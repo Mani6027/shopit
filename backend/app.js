@@ -10,9 +10,11 @@ app.use(cookieparser())
 // Import all the routes
 const productRouter = require('./routes/products');
 const authRouter = require('./routes/auth');
+const orderRouter = require('./routes/order');
 
 app.use('/api/v1', productRouter);
 app.use('/api/v1', authRouter);
+app.use('/api/v1', orderRouter);
 
 // Middlewares to handle error
 app.use(errorMiddlewares)
