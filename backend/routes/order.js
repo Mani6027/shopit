@@ -6,7 +6,8 @@ const {
     getSigleOrder,
     myOrder,
     allOrders,
-    updateOrder
+    updateOrder,
+    deleteOrder
 } = require('../controllers/orderController');
 
 const {isAuthentcatedUser, authorizeRoles} = require('../middlewares/auth');
@@ -24,6 +25,8 @@ router.route('/order/:id').get(isAuthentcatedUser, getSigleOrder);
 router.route('/orders/me').get(isAuthentcatedUser, myOrder);
 
 router.route('/admin/orders').get(isAuthentcatedUser, authorizeRoles('admin'), allOrders);
-router.route('/admin/order/:id').put(isAuthentcatedUser, authorizeRoles('admin'), updateOrder)
+router.route('/admin/order/:id')
+                        .put(isAuthentcatedUser, authorizeRoles('admin'), updateOrder)
+                        .delete(isAuthentcatedUser, authorizeRoles('admin'), deleteOrder)
 
 module.exports = router;
