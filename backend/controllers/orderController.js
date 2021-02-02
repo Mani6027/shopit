@@ -48,7 +48,7 @@ exports.getSigleOrder = catchAsyncErrors(async (req, res, next) => {
     })
 })
 
-// Get my order => /api/v1/order/me
+// Get logged in user order => /api/v1/order/me
 exports.myOrder = catchAsyncErrors(async (req, res, next) => {
     const orders = await Order.find({user: req.user.id});
 
@@ -58,6 +58,22 @@ exports.myOrder = catchAsyncErrors(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
+        orders
+    })
+})
+
+// Get logged in user order => /api/v1/admin/orders/
+exports.allOrders = catchAsyncErrors(async (req, res, next) => {
+    const orders = await Order.find();
+
+    let totalAmount = 0;
+    orders.forEach(order => {
+        totalAmount += order.totalPrice;
+    })
+
+    res.status(200).json({
+        success: true,
+        totalAmount,
         orders
     })
 })

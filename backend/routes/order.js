@@ -4,7 +4,8 @@ const router = express.Router();
 const {
     newOrder,
     getSigleOrder,
-    myOrder
+    myOrder,
+    allOrders
 } = require('../controllers/orderController');
 
 const {isAuthentcatedUser, authorizeRoles} = require('../middlewares/auth');
@@ -20,5 +21,7 @@ router.route('/order/new').post(isAuthentcatedUser, newOrder);
 
 router.route('/order/:id').get(isAuthentcatedUser, getSigleOrder);
 router.route('/orders/me').get(isAuthentcatedUser, myOrder);
+
+router.route('/admin/orders').get(isAuthentcatedUser, authorizeRoles('admin'), allOrders);
 
 module.exports = router;
