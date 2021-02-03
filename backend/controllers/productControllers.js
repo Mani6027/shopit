@@ -133,3 +133,13 @@ exports.createProductReview = asyncErrorHandler(async (req, res, next) => {
         success: true,
     })
 })
+
+// Get product reviews => /api/v1/reviews
+exports.getProductReviews = asyncErrorHandler(async (req, res, next) => {
+    const product = await Product.findById(req.query.productId);
+
+    res.status(200).json({
+        success: true,
+        reviews: product.reviews
+    })
+})
