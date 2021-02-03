@@ -143,3 +143,29 @@ exports.getProductReviews = asyncErrorHandler(async (req, res, next) => {
         reviews: product.reviews
     })
 })
+
+// Delete review of a product => /api/v1/review
+exports.deleteProductReview = asyncErrorHandler(async (req, res, next) => {
+    const product = await Product.findById(req.query.productId);
+
+    const reviews = product.reviews.filter(review => review._id.toString() !== req.query.reviewId.toString())
+
+    const numOfReviews = reviews.length;
+
+    let rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
+    rating = isNaN(rating) ? 0 : rating;
+
+    await Product.findByIdAndUpdate(req.query.productId, {
+        reviews,
+        rating,
+        numOfReviews
+    },{
+        new: true,
+        runValidators: true,
+        useFindAndModify: false
+    })
+
+    res.status(200).json({
+        success: true
+    })
+})
