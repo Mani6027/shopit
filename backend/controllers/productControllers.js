@@ -24,8 +24,8 @@ exports.newProduct = asyncErrorHandler(
 exports.getProducts = asyncErrorHandler(
     async (req, res, next) => {
 
-        const resultPerPage = 2;
-        const productCount = await Product.countDocuments()
+        const resultPerPage = 8;
+        const productsCount = await Product.countDocuments()
 
         const apiFeatures = new APIFeatures(Product.find(), req.query)
                                 .search()
@@ -34,10 +34,16 @@ exports.getProducts = asyncErrorHandler(
 
         const products = await apiFeatures.query;
 
+        // setTimeout(() =>{
+        //     res.status(200).json({
+        //         success: true,
+        //         productsCount,
+        //         products
+        //     })
+        // }, 3000)
         res.status(200).json({
             success: true,
-            resultCount: products.length,
-            productCount,
+            productsCount,
             products
         })
     }
