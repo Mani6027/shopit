@@ -8,15 +8,24 @@ import {getProducts} from '../actions/productActions'
 import Product from '../components/product/product'
 import Loader from '../components/layout/Loader'
 
+import {useAlert} from 'react-alert';
+
 const Home = () => {
     
+    const alert = useAlert();
     const dispatch = useDispatch();
 
     const {loading, products, error, productsCount} = useSelector(state => state.products)
 
+ 
     useEffect(() => {
+
+        if (error) {
+            return alert.error('My error');
+        }
+
         dispatch(getProducts());
-    }, [dispatch])
+    }, [dispatch, alert, error])
 
     return (
         <Fragment>
