@@ -41,11 +41,11 @@ export const getProductDetails = (id) => async (dispatch) => {
             type: PRODUCT_DETAILS_REQUET
         })
 
-        const {data} = await axios.get(`api/v1/product/${id}`)
+        const {data} = await axios.get(`/api/v1/product/${id}`)
 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
-            payload: data
+            payload: data.product
         })
 
     }catch(error){
