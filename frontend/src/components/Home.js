@@ -21,7 +21,7 @@ const Home = () => {
     useEffect(() => {
 
         if (error) {
-            return alert.error('My error');
+            return alert.error(error);
         }
 
         dispatch(getProducts());
