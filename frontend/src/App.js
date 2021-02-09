@@ -1,8 +1,12 @@
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import './App.css';
-import Header from './components/layout/Header'
-import Footer from './components/layout/Footer'
-import Home from './components/Home'
+
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+
+import Home from './components/Home';
+
+import ProductDetails from './components/product/productDetails';
 
 function App() {
   return (
@@ -11,6 +15,7 @@ function App() {
         <Header />
         <div className="cotainer container-fluid">
           <Route path="/" component={Home} exact />
+          <Route path="/product/:id" component={ProductDetails}/>
         </div>
         <Footer />
       </div>
