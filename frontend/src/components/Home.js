@@ -1,4 +1,5 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
+import Pagination from 'react-js-pagination';
 
 import MetaData from './layout/MetaData'
 
@@ -14,8 +15,9 @@ const Home = () => {
     
     const alert = useAlert();
     const dispatch = useDispatch();
+    const [currentPage, setCurrentPage] = useState(1);
 
-    const {loading, products, error, productsCount} = useSelector(state => state.products)
+    const {loading, products, error, productsCount, resultPerPage} = useSelector(state => state.products)
 
  
     useEffect(() => {
@@ -24,8 +26,12 @@ const Home = () => {
             return alert.error(error);
         }
 
-        dispatch(getProducts());
-    }, [dispatch, alert, error])
+        dispatch(getProducts(currentPage));
+    }, [dispatch, alert, error, currentPage])
+
+    function setCurrentPageNo(pageNumber){
+        setCurrentPage(pageNumber)
+    }
 
     return (
         <Fragment>
@@ -41,6 +47,22 @@ const Home = () => {
                             ))}
                         </div>
                     </section>
+                    {resultPerPage <= productsCount && (
+                        <div className="d-flex justify-content-center mt-5">
+                            <Pagination
+                                activePage={currentPage}
+                                itemsCountPerPage={resultPerPage}
+                                totalItemsCount={productsCount}
+                                onChange={setCurrentPageNo}
+                                nextPageText={'Next'}
+                                prevPageText={'Prev'}
+                                firstPageText={'First'}
+                                lastPageText={'Last'}
+                                itemClass="page-item"
+                                linkClass="page-link"
+                            />
+                        </div>
+                    )}
                 </Fragment>
             )}
         </Fragment>
