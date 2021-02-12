@@ -11,7 +11,7 @@ import Loader from '../components/layout/Loader'
 
 import {useAlert} from 'react-alert';
 
-const Home = () => {
+const Home = ({match}) => {
     
     const alert = useAlert();
     const dispatch = useDispatch();
@@ -19,15 +19,16 @@ const Home = () => {
 
     const {loading, products, error, productsCount, resultPerPage} = useSelector(state => state.products)
 
- 
+    const keyword = match.params.keyword
+
     useEffect(() => {
 
         if (error) {
             return alert.error(error);
         }
 
-        dispatch(getProducts(currentPage));
-    }, [dispatch, alert, error, currentPage])
+        dispatch(getProducts(keyword, currentPage));
+    }, [dispatch, alert, error, currentPage, keyword])
 
     function setCurrentPageNo(pageNumber){
         setCurrentPage(pageNumber)
@@ -47,7 +48,8 @@ const Home = () => {
                             ))}
                         </div>
                     </section>
-                    {resultPerPage <= productsCount && (
+
+                    {resultPerPage < 4 && (
                         <div className="d-flex justify-content-center mt-5">
                             <Pagination
                                 activePage={currentPage}
