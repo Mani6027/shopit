@@ -21,7 +21,7 @@ router.route('/health').get((req, res, next) => {
 })
 
 router.route('/products').get(getProducts);
-router.route('/product/:id').get(isAuthentcatedUser, getSingleProduct);
+router.route('/product/:id').get(getSingleProduct);
 
 router.route('/admin/product/new').post(isAuthentcatedUser, authorizeRoles('admin'), newProduct);
 

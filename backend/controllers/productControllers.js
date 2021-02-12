@@ -20,11 +20,11 @@ exports.newProduct = asyncErrorHandler(
     }
 )
 
-// Get all products => /api/v1/products
+// Get all products => /api/v1/products?keyword=""
 exports.getProducts = asyncErrorHandler(
     async (req, res, next) => {
 
-        const resultPerPage = 8;
+        const resultPerPage = 4;
         const productsCount = await Product.countDocuments()
 
         const apiFeatures = new APIFeatures(Product.find(), req.query)
@@ -44,6 +44,7 @@ exports.getProducts = asyncErrorHandler(
         res.status(200).json({
             success: true,
             productsCount,
+            resultPerPage,
             products
         })
     }
